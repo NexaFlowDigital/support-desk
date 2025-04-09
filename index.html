@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NexaFlow Support Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: auto;
+        }
+        h1, h2 {
+            color: #2B3791;
+        }
+        button {
+            background-color: #1AA7A0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #26ABE1;
+        }
+        label, input, select, textarea {
+            display: block;
+            margin: 10px 0;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        #responseMessage {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📬 NexaFlow Digital Support Request</h1>
+        <form id="ticketForm">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="business">Business Name</label>
+            <input type="text" id="business" name="business">
+
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="website">Website URL</label>
+            <input type="url" id="website" name="website">
+
+            <label for="requestType">Request Type</label>
+            <select id="requestType" name="requestType">
+                <option value="Content Update">Content Update</option>
+                <option value="Design Update">Design Update</option>
+                <option value="New Feature">New Feature</option>
+                <option value="Technical Issue">Technical Issue</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Urgent">Urgent</option>
+            </select>
+
+            <label for="description">Describe Your Request *</label>
+            <textarea id="description" name="description" rows="6" required></textarea>
+
+            <button type="submit">📨 Submit Request</button>
+            <p id="responseMessage"></p>
+        </form>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxswKhsOLM83dcjEAyNCgEB_6SKiSl3pRc_OoCqDewAf85mqrOTBAerCyjJTlqUNhPT1w/exec";
+
+        document.getElementById("ticketForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const formData = {
+                name: form.name.value,
+                businessName: form.business.value,
+                email: form.email.value,
+                website: form.website.value,
+                requestType: form.requestType.value,
+                priority: form.priority.value,
+                description: form.description.value
+            };
+
+            const responseMessage = document.getElementById("responseMessage");
+            responseMessage.textContent = "Submitting your request...";
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(() => {
+                responseMessage.textContent = "✅ Your request has been submitted!";
+                form.reset();
+            })
+            .catch((error) => {
+                console.error("Error!", error.message);
+                responseMessage.textContent = "❌ Something went wrong. Please try again.";
+            });
+        });
+    </script>
+</body>
+</html>
