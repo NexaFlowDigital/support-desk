@@ -117,12 +117,12 @@
                 body: JSON.stringify(formData)
             })
             .then(() => {
-                responseMessage.textContent = "✅ Your request has been submitted!";
+                responseMessage.textContent = "Your request has been submitted!";
                 form.reset();
             })
             .catch((error) => {
                 console.error("Error!", error.message);
-                responseMessage.textContent = "❌ Something went wrong. Please try again.";
+                responseMessage.textContent = "Something went wrong. Please try again.";
             });
         });
     </script>
